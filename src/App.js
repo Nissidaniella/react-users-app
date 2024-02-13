@@ -1,7 +1,5 @@
-// In App.js
-
 import React, { useState } from 'react';
-import Users from './Users'; // assuming Users component is in a separate file
+import UsersForm from './UsersForm';
 
 function App() {
   const [users, setUsers] = useState([
@@ -9,6 +7,10 @@ function App() {
     { name: 'Jane', email: 'jane@example.com', gen: 2 },
     { name: 'Alice', email: 'alice@example.com', gen: 1 },
   ]);
+
+  const handleAddUser = (newUser) => {
+    setUsers([...users, newUser]);
+  }
 
   return (
     <div>
@@ -19,7 +21,7 @@ function App() {
           <p>Generation: {user.gen}</p>
         </div>
       ))}
-      <Users users={users} />
+      <UsersForm handleAddUser={handleAddUser} />
     </div>
   );
 }
