@@ -1,27 +1,32 @@
 import React, { useState } from 'react';
-import UsersForm from './UsersForm';
+import Users from './Users';
+import EditUsersForm from './EditUsersForm';
 
 function App() {
-  const [users, setUsers] = useState([
-    { name: 'John', email: 'john@example.com', gen: 1 },
-    { name: 'Jane', email: 'jane@example.com', gen: 2 },
-    { name: 'Alice', email: 'alice@example.com', gen: 1 },
-  ]);
+  const initialUsers = [
+    { id: 1, name: 'John', email: 'john@example.com', gen: 1 },
+    { id: 2, name: 'Jane', email: 'jane@example.com', gen: 2 },
+    { id: 3, name: 'Alice', email: 'alice@example.com', gen: 1 },
+  ];
 
-  const handleAddUser = (newUser) => {
-    setUsers([...users, newUser]);
-  }
+  const [users, setUsers] = useState(initialUsers);
+
+  const handleDeleteUser = (userId) => {
+    const updatedUsers = users.filter((user) => user.id !== userId);
+    setUsers(updatedUsers);
+  };
+
+  const handleEditUser = (updatedUser) => {
+    const updatedUsers = users.map((user) =>
+      user.id === updatedUser.id ? updatedUser : user
+    );
+    setUsers(updatedUsers);
+  };
 
   return (
     <div>
-      {users.map((user, index) => (
-        <div key={index}>
-          <p>Name: {user.name}</p>
-          <p>Email: {user.email}</p>
-          <p>Generation: {user.gen}</p>
-        </div>
-      ))}
-      <UsersForm handleAddUser={handleAddUser} />
+      <Users users={users} handleDeleteUser={handleDeleteUser} />
+      <EditUsersForm users={users} handleEditUser={handleEditUser} />
     </div>
   );
 }
